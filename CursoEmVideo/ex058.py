@@ -1,7 +1,6 @@
 n = int(input('quantos numeros da sequencia de fibofodasse quer?'))
 
 un = 0
-res = 0
 aux = 0
 pt= 1
 res = pt + un
