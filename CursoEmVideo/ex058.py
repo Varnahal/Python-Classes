@@ -7,7 +7,7 @@ res = pt + un
 print(res)
 
 c = 0
-while c <n-1:
+while c < n-1:
     aux = res
     res = res + un
     un = aux
