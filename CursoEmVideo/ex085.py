@@ -1,13 +1,17 @@
 from random import randint
+from time import sleep
 
-j1 = {'jogador':'1','dado':randint(1,6)} 
-j2 = randint(1,6)
-j3 = randint(1,6)
-j4 = randint(1,6)
+jogadores = []
 
-jogadores = [j1,{'jogador':'2','dado':j2},{'jogador':'3','dado':j3},{'jogador':'4','dado':j4}]
+for cont in range(0,4):
+    jogadores.append({'jogador': cont, 'dado': randint(1,6)} )
+    print(f'Jogador{jogadores[cont]["jogador"]+1} Tirou {jogadores[cont]["dado"]} ')
+    sleep(0.3)
 
 jogadores.sort(key=lambda dicionario: dicionario['dado'],reverse= True)
 
+print("\n===RANKING===\n")
+
 for i in range(0,4):
     print(f'{i+1}° Lugar: Jogador{jogadores[i]["jogador"]} com {jogadores[i]["dado"]} ')
+    sleep(0.3)
