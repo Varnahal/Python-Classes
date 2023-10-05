@@ -29,13 +29,12 @@ class vendas:
             for row in vendas:
                 venda_dict = {columns[i]: row[i] for i in range(len(columns))}
                 vendas_as_dicts.append(venda_dict)
-            for venda in vendas_as_dicts:
-                print(f"O produto {venda['nome_produto']} custa R${venda['valor_produto']}")
-            print ('\033[32m'+f'PRODUTOS LISTADOS COM SUCESSO'+'\033[0;0m')
+            return vendas_as_dicts
 
 
     def inserirVenda(self,nome,valor):
         cmd = 'INSERT INTO pythoncourse.vendas (nome_produto, valor_produto) VALUES(%s,%s)'
+        int(valor)
         values = (nome,valor)
         try:
             self.cursor.execute(cmd,values)#no primeiro parametro você coloca a query sql e no segundo coloca os valores que quer passar pra essa query

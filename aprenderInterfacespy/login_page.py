@@ -17,7 +17,7 @@ def login(Username_entry,password_entry):
 
 
 
-"""
+
 window = Tk()
 window.title('Login Page')
 window.geometry('500x300')
@@ -46,4 +46,3 @@ frame.pack()
 
 
 window.mainloop()
-"""
