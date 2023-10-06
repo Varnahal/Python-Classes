@@ -1,6 +1,6 @@
 # Multi-frame tkinter application v2.3
 import tkinter as tk
-from login_page import login
+from aprenderInterfacespy.login_page.login_page import login
 
 class SampleApp(tk.Tk):
     def __init__(self):

@@ -31,7 +31,7 @@ usarname_label = Label(frame,text='Username',bg='#333333',fg='#ffffff',font=('ar
 Username_entry = Entry(frame,font=('arial',16))
 password_label = Label(frame,text='Password',bg='#333333',fg='#ffffff',font=('arial',16))
 password_entry = Entry(frame,show='*',font=('arial',16))
-login_button = Button(frame,text='Login',font=('arial',16),command=login)
+login_button = Button(frame,text='Login',font=('arial',16),command=lambda : login(Username_entry,password_entry))
 
 
 label.grid(row=0,column=1,columnspan=2,sticky='news',pady=30)
