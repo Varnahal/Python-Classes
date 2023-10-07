@@ -30,6 +30,23 @@ class vendas:
                 venda_dict = {columns[i]: row[i] for i in range(len(columns))}
                 vendas_as_dicts.append(venda_dict)
             return vendas_as_dicts
+        
+    def listarUm(self,id):
+        cmd = 'SELECT * FROM pythoncourse.vendas WHERE idVendas = %s'
+        values = [id]
+        try:
+            self.cursor.execute(cmd,values)#no primeiro parametro você coloca a query sql e no segundo coloca os valores que quer passar pra essa query
+            vendas = self.cursor.fetchall()
+            desc = self.cursor.description
+        except:
+            print ('\033[31m'+'ERRO AO EXECUTAR QUERY,CONFIRA AS INFORMAÇÔES'+'\033[0;0m')
+        else:
+            columns = [col[0] for col in desc]
+            vendas_as_dicts = []
+            for row in vendas:
+                venda_dict = {columns[i]: row[i] for i in range(len(columns))}
+                vendas_as_dicts.append(venda_dict)
+            return vendas_as_dicts
 
 
     def inserirVenda(self,nome,valor):
