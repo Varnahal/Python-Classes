@@ -44,18 +44,22 @@
         <form class="row g-3" method="post" action="{%url 'acesso:CadastraUsuario' %}">
           {% csrf_token %}
             <label for="emailInput" class="form-label">Email</label>
-            <input class="form-control" name="email" id="emailInput" type="email" placeholder="example@ex.com" aria-label="default input example" required>
+            <input class="form-control" name="email" id="emailInput" type="email" value="{% if inpemail %} {{inpemail}} {% endif %}" placeholder="example@ex.com" aria-label="default input example" required>
+
             <label for="nameInput" class="form-label">Name</label>
-            <input class="form-control" name="name" id="nameInput" type="text" placeholder="" aria-label="default input example" required>
+            <input class="form-control" name="name" id="nameInput" type="text" value="{% if inpnome %} {{inpnome}} {% endif %}" placeholder="" aria-label="default input example" required>
+
             <label for="inputPassword5" class="form-label">Password</label>
             <input type="password" name="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" required>
             <div id="passwordHelpBlock" class="form-text" style="color: white;">
                 Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
             </div>
+
             <label for="inputPassword2" class="form-label">Confirm Password</label>
             <input type="password" name="password2" id="inputPassword2" class="form-control" aria-describedby="passwordHelpBlock" required>
+
             <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
+              <button type="submit" class="btn btn-primary mb-3">Confirm identity</button>
             </div>
         </form>
     </div>

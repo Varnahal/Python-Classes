@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import User
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -34,9 +35,16 @@ def logout(request):
 
 def CadastraUsuario(request):
     """Cadastra o usuario no sistema"""
-    pass
+    if request.method != 'POST':
+        return HttpResponseRedirect('/acesso/cadastro')
+    nome = request.POST['name']
+    email = request.POST['email']
+    password = request.POST['password']
+    password2 = request.POST['password2']
+    if password != password2:
+        return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':'as senhas não coincidem'})
+    return HttpResponseRedirect('/acesso/login',{'logged':False})
 
 
 def cadastro(request):
     return render(request,'app_crud_login/cadastro.html')
-    pass
