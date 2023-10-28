@@ -17,6 +17,8 @@ def loginPage(request):
 
 def verificaLogin(request):
     """Verifica se o usuario esta cadastrado no sistema"""
+    if request.method != 'POST':
+        return HttpResponseRedirect('/acesso/login')
     email = request.POST['email']
     password = request.POST['password']
     try:
