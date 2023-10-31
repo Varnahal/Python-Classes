@@ -94,3 +94,8 @@ def CadastraUsuario(request):
 
 def cadastro(request):
     return render(request,'app_crud_login/cadastro.html')
+
+def perfil(request):
+    if request.session.has_key('logged'):
+        return render(request,'app_crud_login/perfil.html',{'logged':True,'user_name':request.session['username']})
+    return HttpResponseRedirect('/')

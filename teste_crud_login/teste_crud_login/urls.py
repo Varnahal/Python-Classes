@@ -22,5 +22,6 @@ from app_crud_login import views
 urlpatterns = [
     path('acesso/',include('app_crud_login.urls')),
     path('', views.index,name='index'),
+    path('perfil/', views.perfil,name='perfil'),
     path('admin/', admin.site.urls)
 ]
