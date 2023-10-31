@@ -5,7 +5,9 @@ from django.contrib.auth.hashers import make_password, check_password
 import re
 from django.utils.translation import gettext as _
 
+
 def validate_password(value):
+    """Gerado pelo chat gpt para validar a senha"""
     if not re.search(r'[A-Z]', value):
         return("A senha deve conter pelo menos uma letra maiúscula.")
     elif not re.search(r'[a-z]', value):
@@ -51,7 +53,6 @@ def verificaLogin(request):
         return render(request,'app_crud_login/login.html',{'error_message' : 'Usuario não encontrado'})
     
 
-
 def logout(request):
     if request.session.has_key('logged'):
         del request.session['logged']
@@ -76,7 +77,6 @@ def CadastraUsuario(request):
             return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':'as senhas não coincidem'})
         elif validate_password(password) != True:
             return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':validate_password(password)})
-
     except Exception:
         return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':'Erro interno'})
     try:
