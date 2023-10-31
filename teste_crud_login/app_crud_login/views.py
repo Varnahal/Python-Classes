@@ -37,7 +37,8 @@ def verificaLogin(request):
 
 
 def logout(request):
-    del request.session['logged']
+    if request.session.has_key('logged'):
+        del request.session['logged']
     return HttpResponseRedirect('/')
 
 
