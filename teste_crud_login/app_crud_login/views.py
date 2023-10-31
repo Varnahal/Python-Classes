@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from .models import User
 from django.contrib.auth.hashers import make_password, check_password
 import re
-from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 
 def validate_password(value):
