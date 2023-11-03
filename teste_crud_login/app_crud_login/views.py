@@ -48,6 +48,7 @@ def verificaLogin(request):
     if check_password(password, usuario.password):
         request.session['logged'] = True
         request.session['username'] = usuario.name
+        request.session['id'] = usuario.id_user
         return HttpResponseRedirect('/')
     else:
         return render(request,'app_crud_login/login.html',{'error_message' : 'Usuario não encontrado'})
@@ -61,10 +62,12 @@ def logout(request):
 
 def CadastraUsuario(request):
     """Cadastra o usuario no sistema"""
+    if request.session.has_key('logged'):
+        return HttpResponseRedirect('/')
+    if request.method != 'POST':
+        return HttpResponseRedirect('/acesso/cadastro')
     try:
         #verifica se foi feita uma requisição correta
-        if request.method != 'POST':
-            return HttpResponseRedirect('/acesso/cadastro')
         nome = request.POST['name']
         email = request.POST['email']
         password = request.POST['password']
@@ -78,7 +81,7 @@ def CadastraUsuario(request):
         elif validate_password(password) != True:
             return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':validate_password(password)})
     except Exception:
-        return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':'Erro interno'})
+        return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':'Erro aaa'})
     try:
         #Criar um novo usuario no sistema
         new_user = User()
@@ -93,9 +96,57 @@ def CadastraUsuario(request):
 
 
 def cadastro(request):
+    if request.session.has_key('logged'):
+        return HttpResponseRedirect('/')
     return render(request,'app_crud_login/cadastro.html')
 
 def perfil(request):
     if request.session.has_key('logged'):
-        return render(request,'app_crud_login/perfil.html',{'logged':True,'user_name':request.session['username']})
+        return render(request,'app_crud_login/perfil.html',{'logged':True,'user_name':request.session['username'],'id':request.session['id']})
     return HttpResponseRedirect('/')
+
+
+def deletarUser(request):
+    try:   
+        User.objects.filter(id_user = request.session['id']).delete()
+    except:
+        return render(request,'app_crud_login/perfil.html',{'logged':True,'user_name':request.session['username'],'id':request.session['id']})
+    del request.session['logged']
+    del request.session['username']
+    del request.session['id']
+    return HttpResponseRedirect('/')
+
+
+def atualizarUser(request):
+    if request.session.has_key('logged'):
+        return render(request,'app_crud_login/atualizar.html') 
+    return HttpResponseRedirect('/')
+
+
+def atualizarDados(request):
+    """Cadastra o usuario no sistema"""
+    try:
+        #verifica se foi feita uma requisição correta
+        if request.method != 'POST':
+            return HttpResponseRedirect('/acesso/cadastro')
+        nome = request.POST['name']
+        email = request.POST['email']
+        password = request.POST['password']
+        usuario = User.objects.get(id_user=request.session['id'])
+        if nome == '' or email == '' or password == '':
+            return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':'Preencha todos os campos'})
+        if check_password(password, usuario.password):
+            return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':'senha incorreta'})
+    except Exception:
+        return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':usuario})
+    # try:
+    #     #Criar um novo usuario no sistema
+    #     new_user = User()
+    #     new_user.name = nome
+    #     new_user.email = email
+    #     new_pass = make_password(password)
+    #     new_user.password = new_pass
+    #     new_user.save()
+    # except Exception:
+    #     return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':'Erro ao cadastrar usuario, tente novamente'})
+    # return HttpResponseRedirect('/acesso/login')
