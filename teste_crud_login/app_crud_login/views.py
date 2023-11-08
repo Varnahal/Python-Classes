@@ -133,20 +133,23 @@ def atualizarDados(request):
         email = request.POST['email']
         password = request.POST['password']
         usuario = User.objects.get(id_user=request.session['id'])
+        if User.objects.filter(email=email).count() != 0:
+            return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':'Endereço de e-mail indisponivel'})
         if nome == '' or email == '' or password == '':
             return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':'Preencha todos os campos'})
-        if check_password(password, usuario.password):
-            return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':'senha incorreta'})
+        if not check_password(password, usuario.password):
+            return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':f'senha incorreta'})
     except Exception:
-        return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':usuario})
-    # try:
-    #     #Criar um novo usuario no sistema
-    #     new_user = User()
-    #     new_user.name = nome
-    #     new_user.email = email
-    #     new_pass = make_password(password)
-    #     new_user.password = new_pass
-    #     new_user.save()
-    # except Exception:
-    #     return render(request,'app_crud_login/cadastro.html',{'inpemail':email,'inpnome':nome,'error_message':'Erro ao cadastrar usuario, tente novamente'})
-    # return HttpResponseRedirect('/acesso/login')
+        return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':'Erro interno'})
+    try:
+        #Atualiza o usuario no sistema
+        usuario.name = nome
+        usuario.email = email
+        usuario.save()
+    except Exception:
+        return render(request,'app_crud_login/atualizar.html',{'inpemail':email,'inpnome':nome,'error_message':'Erro ao atualizar, tente novamente'})
+    
+    request.session['logged'] = True
+    request.session['username'] = usuario.name
+    request.session['id'] = usuario.id_user
+    return HttpResponseRedirect('/acesso/login')
