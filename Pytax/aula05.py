@@ -1,4 +1,3 @@
-from typing import Optional
 from PySide6.QtCore import Qt,QSize
 from PySide6.QtWidgets import QApplication, QMainWindow,QLabel
 import sys
